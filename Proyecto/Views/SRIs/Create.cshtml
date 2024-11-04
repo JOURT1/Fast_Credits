@@ -1,0 +1,52 @@
+﻿@model Proyecto.Models.SRI
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>SRI</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdPersona" class="control-label"></label>
+                <select asp-for="IdPersona" class ="form-control" asp-items="ViewBag.IdPersona"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Trabajo" class="control-label"></label>
+                <input asp-for="Trabajo" class="form-control" />
+                <span asp-validation-for="Trabajo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ingresos_Mensuales" class="control-label"></label>
+                <input asp-for="Ingresos_Mensuales" class="form-control" />
+                <span asp-validation-for="Ingresos_Mensuales" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Deudas_Activas" /> @Html.DisplayNameFor(model => model.Deudas_Activas)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Bienes" class="control-label"></label>
+                <input asp-for="Bienes" class="form-control" />
+                <span asp-validation-for="Bienes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
