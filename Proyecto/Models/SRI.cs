@@ -22,7 +22,7 @@ namespace Proyecto.Models
         public int Ingresos_Mensuales { get; set; }
         
         [Required]
-        //"SI" marque el casillero "NO" deje el casillero en blanco
+        //"SI" marque el casillero "NO" deje el casillero en blanco.
         public Boolean Deudas_Activas { get; set; }
         
         [Required]
