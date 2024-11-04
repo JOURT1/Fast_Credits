@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proyecto.Data;
 
@@ -11,9 +12,11 @@ using Proyecto.Data;
 namespace Proyecto.Migrations
 {
     [DbContext(typeof(ProyectoContext))]
-    partial class ProyectoContextModelSnapshot : ModelSnapshot
+    [Migration("20241104232029_FastCredits3")]
+    partial class FastCredits3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

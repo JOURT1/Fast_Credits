@@ -1,0 +1,259 @@
+﻿@model IEnumerable<Proyecto.Models.Civil>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<!-- Formulario para filtrar por cédula -->
+<form method="get">
+    <div class="form-group">
+        <label for="cedula">Filtrar por Cédula</label>
+        <input type="text" name="cedula" class="form-control" placeholder="Ingrese la cédula">
+        <button type="submit" class="btn btn-primary mt-2">Filtrar</button>
+    </div>
+</form>
+
+<!-- Mostrar las tablas solo si hay resultados -->
+@if (Model.Any())
+{
+    <h2>Información Civil</h2>
+
+    <!-- Tabla de Civilesdd -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Civil.Casado)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Civil.Hijos)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Civil.Casado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Civil.Hijos)
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Tabla de Personas -->
+    <h2>Información Persona</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Cedula)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Edad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Fecha_Nacimiento)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Genero)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Telefono)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Correo)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Edad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Fecha_Nacimiento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Genero)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Telefono)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Correo)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Tabla de SRI -->
+    <h2>Información SRI</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.SRI.Trabajo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.SRI.Ingresos_Mensuales)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.SRI.Deudas_Activas)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.SRI.Bienes)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.SRI.Trabajo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.SRI.Ingresos_Mensuales)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.SRI.Deudas_Activas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.SRI.Bienes)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <!-- Tabla de LEgal -->
+    <h2>Información Legal</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Legal.Denuncias)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Legal.Antecedentes_Penales)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Legal.Fraudes)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Legal.Denuncias)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Legal.Antecedentes_Penales)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Legal.Fraudes)
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+    <!-- Tabla de Autos -->
+    <h2>Información Autos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Autos.Marca)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Autos.Modelo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Autos.ano)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Persona.Autos.precio)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Autos.Marca)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Autos.Modelo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Autos.ano)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Persona.Autos.precio)
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+}
+else
+{
+    <p>No hay resultados para mostrar. Ingrese una cédula para filtrar los datos.</p>
+}

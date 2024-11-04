@@ -36,6 +36,12 @@ namespace Proyecto.Models
         [Required]
         [EmailAddress]
         public string Correo { get; set; }
+
+        public Legal? Legal { get; set; } // Agrega esta propiedad de navegación
+        public SRI? SRI { get; set; } // Agrega esta propiedad de navegación
+        public Civil? Civil { get; set; } // Agrega esta propiedad de navegación
+
+        public Autos? Autos { get; set; }
     }
 }
 

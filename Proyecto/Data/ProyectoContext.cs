@@ -18,5 +18,7 @@ namespace Proyecto.Data
         public DbSet<Proyecto.Models.Legal> Legal { get; set; } = default!;
         public DbSet<Proyecto.Models.SRI> SRI { get; set; } = default!;
         public DbSet<Proyecto.Models.Civil> Civil { get; set; } = default!;
+        public DbSet<Proyecto.Models.Solicitud> Solicitud { get; set; } = default!;
+        public DbSet<Proyecto.Models.Autos> Autos { get; set; } = default!;
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proyecto.Data;
 
@@ -11,9 +12,11 @@ using Proyecto.Data;
 namespace Proyecto.Migrations
 {
     [DbContext(typeof(ProyectoContext))]
-    partial class ProyectoContextModelSnapshot : ModelSnapshot
+    [Migration("20241104220141_Migracion20")]
+    partial class Migracion20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,41 +24,6 @@ namespace Proyecto.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Proyecto.Models.Autos", b =>
-                {
-                    b.Property<int>("IdAutos")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAutos"));
-
-                    b.Property<int>("IdPersona")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Marca")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("Modelo")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<int>("ano")
-                        .HasColumnType("int");
-
-                    b.Property<float>("precio")
-                        .HasColumnType("real");
-
-                    b.HasKey("IdAutos");
-
-                    b.HasIndex("IdPersona")
-                        .IsUnique();
-
-                    b.ToTable("Autos");
-                });
 
             modelBuilder.Entity("Proyecto.Models.Civil", b =>
                 {
@@ -205,17 +173,6 @@ namespace Proyecto.Migrations
                     b.ToTable("Solicitud");
                 });
 
-            modelBuilder.Entity("Proyecto.Models.Autos", b =>
-                {
-                    b.HasOne("Proyecto.Models.Persona", "Persona")
-                        .WithOne("Autos")
-                        .HasForeignKey("Proyecto.Models.Autos", "IdPersona")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Persona");
-                });
-
             modelBuilder.Entity("Proyecto.Models.Civil", b =>
                 {
                     b.HasOne("Proyecto.Models.Persona", "Persona")
@@ -262,13 +219,14 @@ namespace Proyecto.Migrations
 
             modelBuilder.Entity("Proyecto.Models.Persona", b =>
                 {
-                    b.Navigation("Autos");
+                    b.Navigation("Civil")
+                        .IsRequired();
 
-                    b.Navigation("Civil");
+                    b.Navigation("Legal")
+                        .IsRequired();
 
-                    b.Navigation("Legal");
-
-                    b.Navigation("SRI");
+                    b.Navigation("SRI")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
