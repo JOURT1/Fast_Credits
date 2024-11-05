@@ -1,22 +1,178 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
+
 body {
-  margin-bottom: 60px;
+    background-color: #f3f4f6;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 18px;
+    color: #7f8c8d;
+    line-height: 1.5;
+}
+
+img {
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    margin-top: 15px;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+/* Estilos básicos para todas las tablas */
+table {
+    width: 100%;
+    border-collapse: separate; /* Permite bordes redondeados */
+    border-spacing: 0; /* Elimina el espacio entre las celdas */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #2c3e50;
+    border: 1px solid #ddd;
+    border-radius: 8px; /* Bordes redondeados */
+    overflow: hidden; /* Asegura que los bordes redondeados se apliquen */
+}
+
+/* Estilo fijo para el encabezado */
+th {
+    background-color: #007BFF !important; /* Azul oscuro con 'important' para evitar sobrescrituras */
+    color: white !important; /* Blanco para el texto con 'important' para asegurar que se mantenga */
+    font-weight: bold;
+    text-align: center;
+    padding: 12px 15px;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Celdas de datos */
+td {
+    padding: 12px 15px;
+    text-align: center; /* Centramos el contenido */
+    border-bottom: 1px solid #ddd;
+    color: #2c3e50;
+}
+
+/* Fondo alternado de filas */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #eaf2fb;
+}
+
+
+/* Centrar el contenido del encabezado */
+.custom-navbar .container-fluid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo para los botones de navegación */
+.btn-nav {
+    color: #2c3e50 !important;
+    font-weight: 500;
+    padding: 8px 15px;
+    margin: 0 5px;
+    background-color: #f3f4f6;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid transparent;
+}
+
+    .btn-nav:hover {
+        background-color: #007BFF;
+        color: #ffffff !important;
+        border-color: #007BFF;
+    }
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #2c3e50 !important;
+    font-weight: bold;
+}
+
+/* Aumentar espaciado en pantallas grandes */
+@media (min-width: 768px) {
+    .btn-nav {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+
+
+/* Puntaje crediticio */
+
+/* Estilos generales para el puntaje crediticio */
+.credit-score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Colores para cada categoría de puntaje */
+.low-score {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.regular-score {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.good-score {
+    background-color: #fff8e1;
+    color: #856404;
+}
+
+.excellent-score {
+    background-color: #d1e7dd;
+    color: #0f5132;
 }

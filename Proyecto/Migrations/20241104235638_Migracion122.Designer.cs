@@ -12,8 +12,8 @@ using Proyecto.Data;
 namespace Proyecto.Migrations
 {
     [DbContext(typeof(ProyectoContext))]
-    [Migration("20241104031759_Mig1")]
-    partial class Mig1
+    [Migration("20241104235638_Migracion122")]
+    partial class Migracion122
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,41 @@ namespace Proyecto.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Proyecto.Models.Autos", b =>
+                {
+                    b.Property<int>("IdAutos")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAutos"));
+
+                    b.Property<int>("IdPersona")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Marca")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Modelo")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<int>("ano")
+                        .HasColumnType("int");
+
+                    b.Property<float>("precio")
+                        .HasColumnType("real");
+
+                    b.HasKey("IdAutos");
+
+                    b.HasIndex("IdPersona")
+                        .IsUnique();
+
+                    b.ToTable("Autos");
+                });
 
             modelBuilder.Entity("Proyecto.Models.Civil", b =>
                 {
@@ -44,7 +79,8 @@ namespace Proyecto.Migrations
 
                     b.HasKey("IdCivil");
 
-                    b.HasIndex("IdPersona");
+                    b.HasIndex("IdPersona")
+                        .IsUnique();
 
                     b.ToTable("Civil");
                 });
@@ -71,7 +107,8 @@ namespace Proyecto.Migrations
 
                     b.HasKey("IdLegal");
 
-                    b.HasIndex("IdPersona");
+                    b.HasIndex("IdPersona")
+                        .IsUnique();
 
                     b.ToTable("Legal");
                 });
@@ -147,16 +184,46 @@ namespace Proyecto.Migrations
 
                     b.HasKey("IdSRI");
 
-                    b.HasIndex("IdPersona");
+                    b.HasIndex("IdPersona")
+                        .IsUnique();
 
                     b.ToTable("SRI");
+                });
+
+            modelBuilder.Entity("Proyecto.Models.Solicitud", b =>
+                {
+                    b.Property<int>("IdSolicitud")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdSolicitud"));
+
+                    b.Property<int>("IdPersona")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdSolicitud");
+
+                    b.HasIndex("IdPersona");
+
+                    b.ToTable("Solicitud");
+                });
+
+            modelBuilder.Entity("Proyecto.Models.Autos", b =>
+                {
+                    b.HasOne("Proyecto.Models.Persona", "Persona")
+                        .WithOne("Autos")
+                        .HasForeignKey("Proyecto.Models.Autos", "IdPersona")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Persona");
                 });
 
             modelBuilder.Entity("Proyecto.Models.Civil", b =>
                 {
                     b.HasOne("Proyecto.Models.Persona", "Persona")
-                        .WithMany()
-                        .HasForeignKey("IdPersona")
+                        .WithOne("Civil")
+                        .HasForeignKey("Proyecto.Models.Civil", "IdPersona")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -166,8 +233,8 @@ namespace Proyecto.Migrations
             modelBuilder.Entity("Proyecto.Models.Legal", b =>
                 {
                     b.HasOne("Proyecto.Models.Persona", "Persona")
-                        .WithMany()
-                        .HasForeignKey("IdPersona")
+                        .WithOne("Legal")
+                        .HasForeignKey("Proyecto.Models.Legal", "IdPersona")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -177,12 +244,34 @@ namespace Proyecto.Migrations
             modelBuilder.Entity("Proyecto.Models.SRI", b =>
                 {
                     b.HasOne("Proyecto.Models.Persona", "Persona")
+                        .WithOne("SRI")
+                        .HasForeignKey("Proyecto.Models.SRI", "IdPersona")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Persona");
+                });
+
+            modelBuilder.Entity("Proyecto.Models.Solicitud", b =>
+                {
+                    b.HasOne("Proyecto.Models.Persona", "Persona")
                         .WithMany()
                         .HasForeignKey("IdPersona")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Persona");
+                });
+
+            modelBuilder.Entity("Proyecto.Models.Persona", b =>
+                {
+                    b.Navigation("Autos");
+
+                    b.Navigation("Civil");
+
+                    b.Navigation("Legal");
+
+                    b.Navigation("SRI");
                 });
 #pragma warning restore 612, 618
         }

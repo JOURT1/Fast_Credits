@@ -14,11 +14,11 @@ namespace Proyecto.Models
         public int IdPersona { get; set; }
         public Persona? Persona { get; set; }
 
-        [MaxLength(30, ErrorMessage = "La marca debe de tener como minimo 1 digito")]
+        [MaxLength(50, ErrorMessage = "La marca debe de tener como minimo 1 digito")]
         [Required]
         public string Marca { get; set; }
 
-        [MaxLength(30, ErrorMessage = "El modelo debe de tener como minimo 1 digito")]
+        [MaxLength(50, ErrorMessage = "El modelo debe de tener como minimo 1 digito")]
         [Required]
         public String Modelo { get; set; }
 

@@ -4,22 +4,28 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Solicitudes</h1>
 
 <!-- Formulario para filtrar por cédula -->
 <form method="get">
     <div class="form-group">
         <label for="cedula">Filtrar por Cédula</label>
+        <h1></h1>
         <input type="text" name="cedula" class="form-control" placeholder="Ingrese la cédula">
         <button type="submit" class="btn btn-primary mt-2">Filtrar</button>
+        <h1></h1>
     </div>
 </form>
 
 <!-- Mostrar las tablas solo si hay resultados -->
 @if (Model.Any())
 {
-    <h2>Información Civil</h2>
 
+    <h2>Puntaje Crediticio</h2>
+    <div id="credit-score" class="credit-score"></div>
+    <h1></h1>
+
+    <h2>Información Civil</h2>
     <!-- Tabla de Civilesdd -->
     <table class="table">
         <thead>
@@ -54,6 +60,7 @@
             }
         </tbody>
     </table>
+    <h1></h1>
 
     <!-- Tabla de Personas -->
     <h2>Información Persona</h2>
@@ -115,6 +122,8 @@
         </tbody>
     </table>
 
+    <h1></h1>
+
     <!-- Tabla de SRI -->
     <h2>Información SRI</h2>
     <table class="table">
@@ -162,6 +171,9 @@
             }
         </tbody>
     </table>
+    <h1></h1>
+
+
     <!-- Tabla de LEgal -->
     <h2>Información Legal</h2>
     <table class="table">
@@ -203,6 +215,9 @@
             }
         </tbody>
     </table>
+    <h1></h1>
+
+
     <!-- Tabla de Autos -->
     <h2>Información Autos</h2>
     <table class="table">
@@ -255,5 +270,6 @@
 }
 else
 {
+    <h1></h1>
     <p>No hay resultados para mostrar. Ingrese una cédula para filtrar los datos.</p>
 }
