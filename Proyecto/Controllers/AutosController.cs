@@ -26,7 +26,7 @@ namespace Proyecto.Controllers
             return View(await proyectoContext.ToListAsync());
         }
 
-        // GET: Autos/Details/5
+        // GET: Autos/Detailss/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -53,8 +53,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Autos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdAutos,IdPersona,Marca,Modelo,ano,precio")] Autos autos)
@@ -87,8 +85,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Autos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdAutos,IdPersona,Marca,Modelo,ano,precio")] Autos autos)
@@ -159,6 +155,95 @@ namespace Proyecto.Controllers
         private bool AutosExists(int id)
         {
             return _context.Autos.Any(e => e.IdAutos == id);
+        }
+
+        // API Methods
+
+        [HttpGet]
+        [Route("api/Autos")]
+        public async Task<ActionResult<IEnumerable<Autos>>> GetAutos()
+        {
+            return await _context.Autos.Include(a => a.Persona).ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("api/Autos/{id}")]
+        public async Task<ActionResult<Autos>> GetAuto(int id)
+        {
+            var auto = await _context.Autos.Include(a => a.Persona).FirstOrDefaultAsync(a => a.IdAutos == id);
+
+            if (auto == null)
+            {
+                return NotFound();
+            }
+
+            return auto;
+        }
+
+        [HttpPost]
+        [Route("api/Autos")]
+        public async Task<ActionResult<Autos>> PostAuto(Autos autos)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Autos.Add(autos);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetAuto", new { id = autos.IdAutos }, autos);
+        }
+
+        [HttpPut]
+        [Route("api/Autos/{id}")]
+        public async Task<IActionResult> PutAuto(int id, Autos autos)
+        {
+            if (id != autos.IdAutos)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Entry(autos).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AutosExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("api/Autos/{id}")]
+        public async Task<IActionResult> DeleteAuto(int id)
+        {
+            var auto = await _context.Autos.FindAsync(id);
+            if (auto == null)
+            {
+                return NotFound();
+            }
+
+            _context.Autos.Remove(auto);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

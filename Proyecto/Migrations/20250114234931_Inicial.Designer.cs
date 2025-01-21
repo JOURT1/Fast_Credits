@@ -12,8 +12,8 @@ using Proyecto.Data;
 namespace Proyecto.Migrations
 {
     [DbContext(typeof(ProyectoContext))]
-    [Migration("20241104231803_FastCredits2")]
-    partial class FastCredits2
+    [Migration("20250114234931_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,13 +38,13 @@ namespace Proyecto.Migrations
 
                     b.Property<string>("Marca")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Modelo")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("ano")
                         .HasColumnType("int");

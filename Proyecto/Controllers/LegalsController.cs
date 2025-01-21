@@ -53,8 +53,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Legals/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdLegal,IdPersona,Denuncias,Antecedentes_Penales,Fraudes")] Legal legal)
@@ -87,8 +85,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Legals/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdLegal,IdPersona,Denuncias,Antecedentes_Penales,Fraudes")] Legal legal)
@@ -159,6 +155,95 @@ namespace Proyecto.Controllers
         private bool LegalExists(int id)
         {
             return _context.Legal.Any(e => e.IdLegal == id);
+        }
+
+        // API Methods
+
+        [HttpGet]
+        [Route("api/Legals")]
+        public async Task<ActionResult<IEnumerable<Legal>>> GetLegals()
+        {
+            return await _context.Legal.Include(l => l.Persona).ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("api/Legals/{id}")]
+        public async Task<ActionResult<Legal>> GetLegal(int id)
+        {
+            var legal = await _context.Legal.Include(l => l.Persona).FirstOrDefaultAsync(l => l.IdLegal == id);
+
+            if (legal == null)
+            {
+                return NotFound();
+            }
+
+            return legal;
+        }
+
+        [HttpPost]
+        [Route("api/Legals")]
+        public async Task<ActionResult<Legal>> PostLegal(Legal legal)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Legal.Add(legal);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetLegal", new { id = legal.IdLegal }, legal);
+        }
+
+        [HttpPut]
+        [Route("api/Legals/{id}")]
+        public async Task<IActionResult> PutLegal(int id, Legal legal)
+        {
+            if (id != legal.IdLegal)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Entry(legal).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!LegalExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("api/Legals/{id}")]
+        public async Task<IActionResult> DeleteLegal(int id)
+        {
+            var legal = await _context.Legal.FindAsync(id);
+            if (legal == null)
+            {
+                return NotFound();
+            }
+
+            _context.Legal.Remove(legal);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

@@ -20,16 +20,13 @@ namespace Proyecto.Controllers
         }
 
         // GET: Solicituds
-
         public async Task<IActionResult> Index(string cedula)
         {
-            // Si no se ha proporcionado una cédula, devuelve una lista vacía
             if (string.IsNullOrEmpty(cedula))
             {
                 return View(new List<Civil>());
             }
 
-            // Consulta para obtener los Civiles con Persona y SRI que coinciden con la cédula
             var civilsQuery = _context.Civil
                 .Include(c => c.Persona)
                 .ThenInclude(p => p.SRI)
@@ -37,8 +34,6 @@ namespace Proyecto.Controllers
                 .ThenInclude(p => p.Legal)
                 .Include(d => d.Persona)
                 .ThenInclude(p => p.Autos)
-
-
                 .Where(c => c.Persona.Cedula == cedula);
 
             var civils = await civilsQuery.ToListAsync();
@@ -72,8 +67,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Solicituds/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdSolicitud,IdPersona")] Solicitud solicitud)
@@ -106,8 +99,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Solicituds/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdSolicitud,IdPersona")] Solicitud solicitud)
@@ -178,6 +169,95 @@ namespace Proyecto.Controllers
         private bool SolicitudExists(int id)
         {
             return _context.Solicitud.Any(e => e.IdSolicitud == id);
+        }
+
+        // API Methods
+
+        [HttpGet]
+        [Route("api/Solicituds")]
+        public async Task<ActionResult<IEnumerable<Solicitud>>> GetSolicituds()
+        {
+            return await _context.Solicitud.Include(s => s.Persona).ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("api/Solicituds/{id}")]
+        public async Task<ActionResult<Solicitud>> GetSolicitud(int id)
+        {
+            var solicitud = await _context.Solicitud.Include(s => s.Persona).FirstOrDefaultAsync(s => s.IdSolicitud == id);
+
+            if (solicitud == null)
+            {
+                return NotFound();
+            }
+
+            return solicitud;
+        }
+
+        [HttpPost]
+        [Route("api/Solicituds")]
+        public async Task<ActionResult<Solicitud>> PostSolicitud(Solicitud solicitud)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Solicitud.Add(solicitud);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetSolicitud", new { id = solicitud.IdSolicitud }, solicitud);
+        }
+
+        [HttpPut]
+        [Route("api/Solicituds/{id}")]
+        public async Task<IActionResult> PutSolicitud(int id, Solicitud solicitud)
+        {
+            if (id != solicitud.IdSolicitud)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Entry(solicitud).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SolicitudExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("api/Solicituds/{id}")]
+        public async Task<IActionResult> DeleteSolicitud(int id)
+        {
+            var solicitud = await _context.Solicitud.FindAsync(id);
+            if (solicitud == null)
+            {
+                return NotFound();
+            }
+
+            _context.Solicitud.Remove(solicitud);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

@@ -50,8 +50,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Personas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdPersona,Cedula,Nombre,Edad,Fecha_Nacimiento,Genero,Telefono,Correo")] Persona persona)
@@ -82,8 +80,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Personas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdPersona,Cedula,Nombre,Edad,Fecha_Nacimiento,Genero,Telefono,Correo")] Persona persona)
@@ -152,6 +148,95 @@ namespace Proyecto.Controllers
         private bool PersonaExists(int id)
         {
             return _context.Persona.Any(e => e.IdPersona == id);
+        }
+
+        // API Methods
+
+        [HttpGet]
+        [Route("api/Personas")]
+        public async Task<ActionResult<IEnumerable<Persona>>> GetPersonas()
+        {
+            return await _context.Persona.ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("api/Personas/{id}")]
+        public async Task<ActionResult<Persona>> GetPersona(int id)
+        {
+            var persona = await _context.Persona.FindAsync(id);
+
+            if (persona == null)
+            {
+                return NotFound();
+            }
+
+            return persona;
+        }
+
+        [HttpPost]
+        [Route("api/Personas")]
+        public async Task<ActionResult<Persona>> PostPersona(Persona persona)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Persona.Add(persona);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPersona", new { id = persona.IdPersona }, persona);
+        }
+
+        [HttpPut]
+        [Route("api/Personas/{id}")]
+        public async Task<IActionResult> PutPersona(int id, Persona persona)
+        {
+            if (id != persona.IdPersona)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Entry(persona).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PersonaExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("api/Personas/{id}")]
+        public async Task<IActionResult> DeletePersona(int id)
+        {
+            var persona = await _context.Persona.FindAsync(id);
+            if (persona == null)
+            {
+                return NotFound();
+            }
+
+            _context.Persona.Remove(persona);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

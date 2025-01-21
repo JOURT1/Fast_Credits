@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace Proyecto.Models
 {
@@ -11,6 +12,8 @@ namespace Proyecto.Models
 
         [ForeignKey("Persona")]
         public int IdPersona { get; set; }
+
+        [JsonIgnore] // Ignora esta propiedad durante la serialización JSON
         public Persona? Persona { get; set; }
 
         [Required]

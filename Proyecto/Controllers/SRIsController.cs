@@ -53,8 +53,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: SRIs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdSRI,IdPersona,Trabajo,Ingresos_Mensuales,Deudas_Activas,Bienes")] SRI sRI)
@@ -87,8 +85,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: SRIs/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdSRI,IdPersona,Trabajo,Ingresos_Mensuales,Deudas_Activas,Bienes")] SRI sRI)
@@ -159,6 +155,95 @@ namespace Proyecto.Controllers
         private bool SRIExists(int id)
         {
             return _context.SRI.Any(e => e.IdSRI == id);
+        }
+
+        // API Methods
+
+        [HttpGet]
+        [Route("api/SRIs")]
+        public async Task<ActionResult<IEnumerable<SRI>>> GetSRIs()
+        {
+            return await _context.SRI.Include(s => s.Persona).ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("api/SRIs/{id}")]
+        public async Task<ActionResult<SRI>> GetSRI(int id)
+        {
+            var sRI = await _context.SRI.Include(s => s.Persona).FirstOrDefaultAsync(s => s.IdSRI == id);
+
+            if (sRI == null)
+            {
+                return NotFound();
+            }
+
+            return sRI;
+        }
+
+        [HttpPost]
+        [Route("api/SRIs")]
+        public async Task<ActionResult<SRI>> PostSRI(SRI sRI)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.SRI.Add(sRI);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetSRI", new { id = sRI.IdSRI }, sRI);
+        }
+
+        [HttpPut]
+        [Route("api/SRIs/{id}")]
+        public async Task<IActionResult> PutSRI(int id, SRI sRI)
+        {
+            if (id != sRI.IdSRI)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Entry(sRI).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!SRIExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("api/SRIs/{id}")]
+        public async Task<IActionResult> DeleteSRI(int id)
+        {
+            var sRI = await _context.SRI.FindAsync(id);
+            if (sRI == null)
+            {
+                return NotFound();
+            }
+
+            _context.SRI.Remove(sRI);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

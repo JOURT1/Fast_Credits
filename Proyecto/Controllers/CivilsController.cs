@@ -53,8 +53,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Civils/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdCivil,IdPersona,Casado,Hijos")] Civil civil)
@@ -87,8 +85,6 @@ namespace Proyecto.Controllers
         }
 
         // POST: Civils/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdCivil,IdPersona,Casado,Hijos")] Civil civil)
@@ -159,6 +155,95 @@ namespace Proyecto.Controllers
         private bool CivilExists(int id)
         {
             return _context.Civil.Any(e => e.IdCivil == id);
+        }
+
+        // API Methods
+
+        [HttpGet]
+        [Route("api/Civils")]
+        public async Task<ActionResult<IEnumerable<Civil>>> GetCivils()
+        {
+            return await _context.Civil.Include(c => c.Persona).ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("api/Civils/{id}")]
+        public async Task<ActionResult<Civil>> GetCivil(int id)
+        {
+            var civil = await _context.Civil.Include(c => c.Persona).FirstOrDefaultAsync(c => c.IdCivil == id);
+
+            if (civil == null)
+            {
+                return NotFound();
+            }
+
+            return civil;
+        }
+
+        [HttpPost]
+        [Route("api/Civils")]
+        public async Task<ActionResult<Civil>> PostCivil(Civil civil)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Civil.Add(civil);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetCivil", new { id = civil.IdCivil }, civil);
+        }
+
+        [HttpPut]
+        [Route("api/Civils/{id}")]
+        public async Task<IActionResult> PutCivil(int id, Civil civil)
+        {
+            if (id != civil.IdCivil)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Entry(civil).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CivilExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("api/Civils/{id}")]
+        public async Task<IActionResult> DeleteCivil(int id)
+        {
+            var civil = await _context.Civil.FindAsync(id);
+            if (civil == null)
+            {
+                return NotFound();
+            }
+
+            _context.Civil.Remove(civil);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
