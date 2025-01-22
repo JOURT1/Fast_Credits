@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Proyecto.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class Justin : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +19,7 @@ namespace Proyecto.Migrations
                     Cedula = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Edad = table.Column<int>(type: "int", nullable: false),
-                    Fecha_Nacimiento = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Fecha_Nacimiento = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Genero = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Telefono = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Correo = table.Column<string>(type: "nvarchar(max)", nullable: false)

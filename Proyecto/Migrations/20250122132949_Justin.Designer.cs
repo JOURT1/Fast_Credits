@@ -12,8 +12,8 @@ using Proyecto.Data;
 namespace Proyecto.Migrations
 {
     [DbContext(typeof(ProyectoContext))]
-    [Migration("20250114234931_Inicial")]
-    partial class Inicial
+    [Migration("20250122132949_Justin")]
+    partial class Justin
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -133,8 +133,9 @@ namespace Proyecto.Migrations
                     b.Property<int>("Edad")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Fecha_Nacimiento")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Fecha_Nacimiento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Genero")
                         .IsRequired()
