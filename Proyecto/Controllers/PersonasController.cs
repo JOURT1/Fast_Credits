@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Proyecto.Data;
 using Proyecto.Models;
@@ -51,17 +46,20 @@ namespace Proyecto.Controllers
 
         // POST: Personas/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPersona,Cedula,Nombre,Edad,Fecha_Nacimiento,Genero,Telefono,Correo")] Persona persona)
+        public async Task<IActionResult> Create([FromBody] Persona persona)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(persona);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var errores = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(new { mensaje = "Error en los datos", errores });
             }
-            return View(persona);
+
+            _context.Add(persona);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { mensaje = "Persona creada correctamente" });
         }
+
 
         // GET: Personas/Edit/5
         public async Task<IActionResult> Edit(int? id)

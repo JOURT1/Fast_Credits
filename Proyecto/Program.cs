@@ -7,6 +7,12 @@ builder.Services.AddDbContext<ProyectoContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Habilitar logs en la consola
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
+
 
 var app = builder.Build();
 
