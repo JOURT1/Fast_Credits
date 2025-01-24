@@ -22,7 +22,7 @@ namespace Proyecto.Models
         public int Edad { get; set; }
 
         [Required]
-        public string Fecha_Nacimiento { get; set; }
+        public DateTime Fecha_Nacimiento { get; set; }
 
         [Required]
         [RegularExpression("^(Masculino|Femenino)$", ErrorMessage = "El género debe ser 'Masculino' o 'Femenino'.")]

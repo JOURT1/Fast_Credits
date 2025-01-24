@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proyecto.Data;
 using Proyecto.Models;
@@ -44,7 +49,7 @@ namespace Proyecto.Controllers
             return View();
         }
 
-        // POST: Personas/Createee CORREGIDOoo
+        // POST: Personas/Create
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Persona persona)
         {
@@ -59,8 +64,6 @@ namespace Proyecto.Controllers
 
             return Ok(new { mensaje = "Persona creada correctamente" });
         }
-
-
         // GET: Personas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
