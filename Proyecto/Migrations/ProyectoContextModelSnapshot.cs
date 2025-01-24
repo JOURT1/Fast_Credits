@@ -130,8 +130,9 @@ namespace Proyecto.Migrations
                     b.Property<int>("Edad")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Fecha_Nacimiento")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Fecha_Nacimiento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Genero")
                         .IsRequired()
