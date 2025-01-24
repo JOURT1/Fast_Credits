@@ -44,7 +44,7 @@ namespace Proyecto.Controllers
             return View();
         }
 
-        // POST: Personas/Createee CORREGIDOo
+        // POST: Personas/Createee CORREGIDOoo
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Persona persona)
         {
